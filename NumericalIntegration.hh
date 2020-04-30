@@ -4,8 +4,8 @@
 #include <fstream>
 
 // simple Euler-method
-template <typename State, typename T, typename RHS, typename Callback>
-auto SolverEuler(State y0, T t0, T t1, T h, RHS f, Callback cb)
+template <typename State, typename T, typename RHS, typename Callback, typename File>
+auto SolverEuler(State y0, T t0, T t1, T h, RHS f, Callback cb, File s)
 {
     // initial conditions
     T t = t0;
@@ -20,13 +20,15 @@ auto SolverEuler(State y0, T t0, T t1, T h, RHS f, Callback cb)
         y += h * f(t, y);
         t += h;
         // callback function
-        cb(t, y);
+        cb(t, y, s);
     }
+
+    return y;
 }
 
 // 4th order Runge-Kutta method
-template <typename State, typename T, typename RHS, typename Callback>
-auto SolverRK4(State y0, T t0, T t1, T h, RHS f, Callback cb)
+template <typename State, typename T, typename RHS, typename Callback, typename File>
+auto SolverRK4(State y0, T t0, T t1, T h, RHS f, Callback cb, File s)
 {
     // initial conditions
     T t = t0;
@@ -45,6 +47,8 @@ auto SolverRK4(State y0, T t0, T t1, T h, RHS f, Callback cb)
         y += (k1 + k4 + (T)2 * (k2 + k3)) * h / (T)6;
         t += h;
         // callback function
-        cb(t, y);
+        cb(t, y, s);
     }
+
+    return y;
 }

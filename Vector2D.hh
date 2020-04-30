@@ -61,7 +61,7 @@ struct vector2
 template <typename T>
 std::ostream &operator<<(std::ostream &o, vector2<T> const &v)
 {
-    o << v.x << "," << v.y;
+    o << v.x << " " << v.y;
     return o;
 }
 
