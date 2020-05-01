@@ -13,7 +13,7 @@ double const t0 = 0.;
 // integration time boundary
 double const t1 = 30.;
 // step size
-double const h = 1e-2;
+double const h = 1e-3;
 // set value for r (will be reset)
 double r = 0;
 
@@ -31,11 +31,11 @@ double k2 = 1.;
 
 // ---------------------------------------------------------------------------------------------------------
 
-// parameters for the Lotka-Volterra model
-double const a = 20.;
-double const b = 1.;
-double const c = 30.;
-double const d = 1.;
+// parameters for the Lotka-Volterra model (will be reset)
+double a = 20.;
+double b = 1.;
+double c = 30.;
+double d = 1.;
 
 // ---------------------------------------------------------------------------------------------------------
 
@@ -92,7 +92,6 @@ auto Nothing = [&](double, vector2<double>, std::string) {};
 // main function
 int main(int, char **)
 {
-
     // ---------------------------------------------------------------------------------------------------------
     // logistic equation simulation
     /*
@@ -127,7 +126,7 @@ int main(int, char **)
     // container for population numbers
     std::vector<vector2<double>> nContainer(N * N);
     // simulations
-    k1 = 100, k2 = 200;
+    k1 = 100., k2 = 200.;
     for (int i = 0; i < N; i++)
     {
         alpha = 0.1 + i * 0.1;
@@ -139,7 +138,7 @@ int main(int, char **)
     }
 
     // save one for presentation
-    k1 = 100, k2 = 200, alpha = 0.25, beta = 1;
+    k1 = 100., k2 = 200., alpha = 0.25, beta = 1.;
     SolverRK4(y0, t0, t1, h, LogisticCoupledEq, toFile2D, "LogCExample.txt");
 
     // write results to file
@@ -150,4 +149,21 @@ int main(int, char **)
         data << nContainer[i] << std::endl;
     }
     */
+    // ---------------------------------------------------------------------------------------------------------
+    /*
+    // Lotka-Volterra model simulation
+    // initial conditions
+    vector2<double> y0{100., 100.};
+    // number of simulations
+    int N = 3;
+    // simulations for different parameters
+    a = 0.4, b = 0.001, c = 0.001, d = 0.9;
+    for (int i = 0; i < N; i++)
+    {
+        //a = 0.3 + i * 0.1;
+        //b = 0.0005 + i * 0.0005;
+        //c = 0.0005 + i * 0.0005;
+        d = 0.6 + i * 0.3;
+        SolverRK4(y0, t0, t1, h, LotkaVolterraEq, toFile2D, "../LV/LVd" + std::to_string(i));
+    }*/
 }
